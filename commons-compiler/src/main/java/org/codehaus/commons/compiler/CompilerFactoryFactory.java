@@ -58,7 +58,7 @@ class CompilerFactoryFactory {
             return CompilerFactoryFactory.defaultCompilerFactory;
         }
         Properties  properties = new Properties();
-        InputStream is         = Thread.currentThread().getContextClassLoader().getResourceAsStream(
+        InputStream is         = CompilerFactoryFactory.class.getClassLoader().getResourceAsStream(
             "org.codehaus.commons.compiler.properties"
         );
         if (is == null) {
@@ -89,7 +89,7 @@ class CompilerFactoryFactory {
      */
     public static ICompilerFactory[]
     getAllCompilerFactories() throws Exception {
-        ClassLoader            cl        = Thread.currentThread().getContextClassLoader();
+        ClassLoader            cl        = CompilerFactoryFactory.class.getClassLoader();
         List<ICompilerFactory> factories = new ArrayList<ICompilerFactory>();
         for (Enumeration<URL> en = cl.getResources("org.codehaus.commons.compiler.properties"); en.hasMoreElements();) {
             URL url = (URL) en.nextElement();
@@ -124,7 +124,7 @@ class CompilerFactoryFactory {
      */
     public static ICompilerFactory
     getCompilerFactory(String compilerFactoryClassName) throws Exception {
-        return (ICompilerFactory) Thread.currentThread().getContextClassLoader().loadClass(
+        return (ICompilerFactory) CompilerFactoryFactory.class.getClassLoader().loadClass(
             compilerFactoryClassName
         ).newInstance();
     }
